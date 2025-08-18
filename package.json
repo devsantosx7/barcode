@@ -1,0 +1,44 @@
+{
+  "name": "barcode-to-pc-server",
+  "description": "Barcode to PC server",
+  "version": "4.8.6",
+  "license": "MIT",
+  "author": {
+    "name": "Filippo Tortomasi",
+    "email": "filippo.tortomasi@gmail.com",
+    "url": "https://github.com/fttx"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fttx/barcode-to-pc-server.git"
+  },
+  "main": "bin/main.js",
+  "private": true,
+  "dependencies": {
+    "@electron/remote": "^2.0.8",
+    "@homebridge/ciao": "^1.3.1",
+    "@nut-tree/nut-js": "^4.6.0",
+    "@types/google-spreadsheet": "^3.3.0",
+    "@types/gulp": "^4.0.9",
+    "@woocommerce/woocommerce-rest-api": "^1.0.1",
+    "axios": "^0.26.1",
+    "axios-oauth-1.0a": "^0.3.4",
+    "csv-parse": "^4.10.1",
+    "csv-stringify": "^5.6.2",
+    "electron-store": "^8.0.1",
+    "google-auth-library": "^8.6.0",
+    "google-spreadsheet": "^3.3.0",
+    "googleapis": "^108.0.0",
+    "https": "^1.0.0",
+    "node-machine-id": "^1.1.12",
+    "papaparse": "^4.4.0",
+    "requirejs": "^2.3.5",
+    "rxjs": "^5.5.6",
+    "semver": "^5.7.1",
+    "supplant": "^0.2.0",
+    "systemjs": "^0.21.0",
+    "uuid": "^8.3.0",
+    "ws": "^4.1.0",
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
+  }
+}
