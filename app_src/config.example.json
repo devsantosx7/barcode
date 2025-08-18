@@ -1,0 +1,9 @@
+{
+  "developerMode": true,
+  "outputToExcelEnabled": true,
+  "appendCSVEnabled": true,
+  "maxScanSessionsNumber": 999999,
+  "storage_first_connection_date": 1755530300446,
+  "storage_next_charge_date": 9999999999999,
+  "storage_monthly_scan_count": 0
+}

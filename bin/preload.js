@@ -79,4 +79,8 @@ electron_1.contextBridge.exposeInMainWorld('preload', {
         return fs.readFileSync(path, options);
     },
 });
+try {
+    electron_1.contextBridge.exposeInMainWorld("FEATURE_FLAGS", global.__FEATURE_FLAGS__ || {});
+}
+catch (_a) { }
 //# sourceMappingURL=preload.js.map
