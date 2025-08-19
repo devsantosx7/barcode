@@ -44,17 +44,30 @@ XLSX.set_fs(fs);
 // Instead of using the classic import syntax, we dynamically load nutjs, so that
 // we can apply a fallback when the library is not supported.
 //
-// Original import: import { keyboard, Key } from '@nut-tree/nut-js';
-let keyboard, Key;
+// Original import: import { keyboard, Key } from '@nut-tree-fork/nut-js';
+let nut, DefaultClipboardProvider;
+let nutLoaded = true;
 try {
-    // Attempt to import the library
-    const nutjs = require('@nut-tree/nut-js');
-    keyboard = nutjs.keyboard;
-    Key = nutjs.Key;
+    nut = require('@nut-tree-fork/nut-js');
+    ({ DefaultClipboardProvider } = require('@nut-tree-fork/default-clipboard-provider'));
 }
-catch (error) {
-    console.log('failed to load @nut-tree/nut-js', error);
+catch (e) {
+    nutLoaded = false;
+    console.warn('nut-js indisponível; desativando typing/clipboard:', e.message);
+    nut = {
+        keyboard: {
+            type: async () => { },
+            pressKey: async () => { },
+            releaseKey: async () => { },
+            config: {}
+        },
+        clipboard: { setText: async () => { } },
+        Key: {}
+    };
+    DefaultClipboardProvider = class {
+    };
 }
+const { keyboard, Key } = nut;
 class ScansHandler {
     constructor(settingsHandler, uiHandler, gsheet) {
         this.settingsHandler = settingsHandler;
@@ -62,7 +75,7 @@ class ScansHandler {
         this.gsheet = gsheet;
         this.devices = {};
         setTimeout(() => {
-            if (!keyboard) {
+            if (!nutLoaded) {
                 electron_1.app.on('ready', () => __awaiter(this, void 0, void 0, function* () {
                     const result = yield electron_1.dialog.showMessageBox(this.uiHandler.mainWindow, {
                         type: 'error',

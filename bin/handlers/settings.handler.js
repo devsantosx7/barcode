@@ -22,10 +22,15 @@ class SettingsHandler {
     constructor() {
         this.onSettingsChanged = new rxjs_1.ReplaySubject(); // triggered after the page load and on every setting change. See ElectronProvider.
         this.store = new ElectronStore();
+        this.settings = this.settings ?? {};
+        this.settings.enableTray = this.settings.enableTray ?? true;
+        this.settings.openAutomatically = this.settings.openAutomatically ?? 'minimized';
         // this communication is needed because electronStore.onDidChange() triggers only within the same process
         electron_1.ipcMain.on('settings', (event, arg) => {
             const settings = this.store.get(config_1.Config.STORAGE_SETTINGS, new settings_model_1.SettingsModel(os.platform().toLowerCase()));
-            this.settings = settings;
+            this.settings = settings ?? {};
+            this.settings.enableTray = this.settings.enableTray ?? true;
+            this.settings.openAutomatically = this.settings.openAutomatically ?? 'minimized';
             this.onSettingsChanged.next(this.settings);
         });
     }
@@ -61,10 +66,14 @@ class SettingsHandler {
         return this.settings.enableHeaders;
     }
     get enableTray() {
-        return this.settings.enableTray;
+        const s = this.settings ?? {};
+        const v = s.enableTray ?? (s.storage_settings && s.storage_settings.enableTray);
+        return v === undefined ? true : Boolean(v);
     }
     get openAutomatically() {
-        return this.settings.openAutomatically;
+        const s = this.settings ?? {};
+        const v = s.openAutomatically ?? (s.storage_settings && s.storage_settings.openAutomatically);
+        return v === undefined ? 'minimized' : v;
     }
     get csvPath() {
         return this.settings.csvPath;
@@ -73,10 +82,14 @@ class SettingsHandler {
         return this.settings.xlsxPath;
     }
     get appendCSVEnabled() {
-        return this.settings.appendCSVEnabled;
+        const s = this.settings ?? {};
+        const v = s.appendCSVEnabled ?? (s.storage_settings && s.storage_settings.appendCSVEnabled);
+        return Boolean(v);
     }
     get outputToExcelEnabled() {
-        return this.settings.outputToExcelEnabled;
+        const s = this.settings ?? {};
+        const v = s.outputToExcelEnabled ?? (s.storage_settings && s.storage_settings.outputToExcelEnabled);
+        return Boolean(v);
     }
     get mapExcelHeadersToComponents() {
         return this.settings.mapExcelHeadersToComponents;

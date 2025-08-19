@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UiHandler = void 0;
 const electron_1 = require("electron");
 const _path = require("path");
+const fs = require("fs");
 const config_1 = require("../config");
 const utils_1 = require("../utils");
 class UiHandler {
@@ -197,13 +198,27 @@ class UiHandler {
                 setTimeout(() => this.mainWindow.reload(), 2000);
             });
             this.mainWindow.loadURL('http://localhost:8200/');
-            this.mainWindow.webContents.openDevTools();
+            this.mainWindow.webContents.openDevTools({ mode: 'detach' });
             // const log = require("electron-log")
             // log.transports.file.level = "info"
             // autoUpdater.logger = log
         }
         else {
-            this.mainWindow.loadURL(_path.join('file://', __dirname, '../www/index.html'));
+            let candidate = _path.join(__dirname, '../ui/index.html');
+            if (!fs.existsSync(candidate))
+                candidate = _path.join(__dirname, '../www/index.html');
+            if (!fs.existsSync(candidate))
+                candidate = _path.join(__dirname, '../renderer/index.html');
+            console.log('[UI] carregando', candidate, 'exists?', fs.existsSync(candidate));
+            if (fs.existsSync(candidate)) {
+                this.mainWindow.loadFile(candidate);
+            }
+            else {
+                this.mainWindow.loadURL('data:text/html,<h1>Renderer OK</h1>');
+            }
+        }
+        if (global.__DEVELOPER_MODE__) {
+            this.mainWindow.webContents.openDevTools({ mode: 'detach' });
         }
         if (process.platform === 'darwin') {
             let template = [
