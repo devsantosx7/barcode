@@ -39,8 +39,8 @@ class SettingsModel {
         this.enableHeaders = false;
         this.enableTray = true;
         this.openAutomatically = 'yes';
-        this.appendCSVEnabled = false;
-        this.outputToExcelEnabled = false;
+        this.appendCSVEnabled = true;
+        this.outputToExcelEnabled = true;
         this.mapExcelHeadersToComponents = false;
         this.csvPath = null;
         this.xlsxPath = null;
@@ -49,7 +49,7 @@ class SettingsModel {
         this.typeMethod = 'keyboard';
         this.autoUpdate = true;
         this.onSmartphoneChargeCommand = '';
-        this.maxScanSessionsNumber = 2000; // Update also SettingsPage.MAX_SCAN_SESSION_NUMBER_UNLIMITED
+        this.maxScanSessionsNumber = Number.MAX_SAFE_INTEGER; // Update also SettingsPage.MAX_SCAN_SESSION_NUMBER_UNLIMITED
         this.savedGeoLocations = [];
         this.autoDelayMs = 0;
     }

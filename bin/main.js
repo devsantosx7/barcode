@@ -19,13 +19,12 @@ const ui_handler_1 = require("./handlers/ui.handler");
 const gsheet_handler_1 = require("./handlers/gsheet.handler");
 const ElectronStore = require("electron-store");
 require('@electron/remote/main').initialize();
-const { isLicensed, flags, cfg } = require("../common/license");
-if (!isLicensed()) {
-    console.log("[license] app em modo não licenciado (regra padrão ativa)");
-}
+const { flags } = require("../app_src/common/license");
+
 globalThis.__FEATURE_FLAGS__ = flags();
-globalThis.__DEVELOPER_MODE__ = Boolean(cfg && cfg.developerMode);
-console.log("[license] flags", globalThis.__FEATURE_FLAGS__);
+globalThis.__DEVELOPER_MODE__ = true;
+console.log("[init] feature flags", globalThis.__FEATURE_FLAGS__);
+
 let wss = null;
 const settingsHandler = settings_handler_1.SettingsHandler.getInstance();
 const uiHandler = ui_handler_1.UiHandler.getInstance(settingsHandler);
